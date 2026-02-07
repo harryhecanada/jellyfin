@@ -54,6 +54,7 @@ public static class OrderMapper
             (ItemSortBy.VideoBitRate, _) => e => e.TotalBitrate,
             (ItemSortBy.ParentIndexNumber, _) => e => e.ParentIndexNumber,
             (ItemSortBy.IndexNumber, _) => e => e.IndexNumber,
+            (ItemSortBy.Size, _) => e => e.Size,
             (ItemSortBy.SeriesDatePlayed, not null) => e =>
                             jellyfinDbContext.BaseItems
                                 .Where(w => w.SeriesPresentationUniqueKey == e.PresentationUniqueKey)
