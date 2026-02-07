@@ -77,7 +77,7 @@ public class FilterController : BaseJellyfinApiController
             EnableTotalRecordCount = false,
             DtoOptions = new DtoOptions
             {
-                Fields = new[] { ItemFields.Genres, ItemFields.Tags },
+                Fields = new[] { ItemFields.Genres, ItemFields.Tags, ItemFields.Width, ItemFields.Height },
                 EnableImages = false,
                 EnableUserData = false
             }
@@ -112,6 +112,13 @@ public class FilterController : BaseJellyfinApiController
                 .Select(i => i.OfficialRating)
                 .Where(i => !string.IsNullOrWhiteSpace(i))
                 .Distinct(StringComparer.OrdinalIgnoreCase)
+                .Order()
+                .ToArray(),
+
+            VideoResolutions = itemList
+                .Select(i => $"{i.Width}x{i.Height}")
+                .Where(i => i != "0x0")
+                .Distinct()
                 .Order()
                 .ToArray()
         };

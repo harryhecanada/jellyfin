@@ -154,6 +154,7 @@ public class ItemsController : BaseJellyfinApiController
     /// <param name="nameLessThan">Optional filter by items whose name is equally or lesser than a given input string.</param>
     /// <param name="studioIds">Optional. If specified, results will be filtered based on studio id. This allows multiple, pipe delimited.</param>
     /// <param name="genreIds">Optional. If specified, results will be filtered based on genre id. This allows multiple, pipe delimited.</param>
+    /// <param name="videoResolutions">Optional filter by Video Resolution (480p, 720p, 1080p, 1440p, 4K, 8K). Allows multiple, comma delimited.</param>
     /// <param name="enableTotalRecordCount">Optional. Enable the total record count.</param>
     /// <param name="enableImages">Optional, include image information in output.</param>
     /// <returns>A <see cref="QueryResult{BaseItemDto}"/> with the items.</returns>
@@ -244,6 +245,7 @@ public class ItemsController : BaseJellyfinApiController
         [FromQuery] string? nameLessThan,
         [FromQuery, ModelBinder(typeof(CommaDelimitedCollectionModelBinder))] Guid[] studioIds,
         [FromQuery, ModelBinder(typeof(CommaDelimitedCollectionModelBinder))] Guid[] genreIds,
+        [FromQuery, ModelBinder(typeof(CommaDelimitedCollectionModelBinder))] string[] videoResolutions,
         [FromQuery] bool enableTotalRecordCount = true,
         [FromQuery] bool? enableImages = true)
     {
@@ -357,6 +359,7 @@ public class ItemsController : BaseJellyfinApiController
                 AlbumArtistIds = albumArtistIds,
                 ContributingArtistIds = contributingArtistIds,
                 GenreIds = genreIds,
+                VideoResolutions = videoResolutions,
                 StudioIds = studioIds,
                 Person = person,
                 PersonIds = personIds,
@@ -619,6 +622,7 @@ public class ItemsController : BaseJellyfinApiController
     /// <param name="nameLessThan">Optional filter by items whose name is equally or lesser than a given input string.</param>
     /// <param name="studioIds">Optional. If specified, results will be filtered based on studio id. This allows multiple, pipe delimited.</param>
     /// <param name="genreIds">Optional. If specified, results will be filtered based on genre id. This allows multiple, pipe delimited.</param>
+    /// <param name="videoResolutions">Optional filter by Video Resolution (480p, 720p, 1080p, 1440p, 4K, 8K). Allows multiple, comma delimited.</param>
     /// <param name="enableTotalRecordCount">Optional. Enable the total record count.</param>
     /// <param name="enableImages">Optional, include image information in output.</param>
     /// <returns>A <see cref="QueryResult{BaseItemDto}"/> with the items.</returns>
@@ -710,6 +714,7 @@ public class ItemsController : BaseJellyfinApiController
         [FromQuery] string? nameLessThan,
         [FromQuery, ModelBinder(typeof(CommaDelimitedCollectionModelBinder))] Guid[] studioIds,
         [FromQuery, ModelBinder(typeof(CommaDelimitedCollectionModelBinder))] Guid[] genreIds,
+        [FromQuery, ModelBinder(typeof(CommaDelimitedCollectionModelBinder))] string[] videoResolutions,
         [FromQuery] bool enableTotalRecordCount = true,
         [FromQuery] bool? enableImages = true)
         => GetItems(
@@ -797,6 +802,7 @@ public class ItemsController : BaseJellyfinApiController
             nameLessThan,
             studioIds,
             genreIds,
+            videoResolutions,
             enableTotalRecordCount,
             enableImages);
 

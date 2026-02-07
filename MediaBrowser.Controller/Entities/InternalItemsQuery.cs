@@ -52,6 +52,7 @@ namespace MediaBrowser.Controller.Entities
             TopParentIds = Array.Empty<Guid>();
             TrailerTypes = Array.Empty<TrailerType>();
             VideoTypes = Array.Empty<VideoType>();
+            VideoResolutions = Array.Empty<string>();
             Years = Array.Empty<int>();
             SkipDeserialization = false;
         }
@@ -176,6 +177,8 @@ namespace MediaBrowser.Controller.Entities
         public ImageType[] ImageTypes { get; set; }
 
         public VideoType[] VideoTypes { get; set; }
+
+        public string[] VideoResolutions { get; set; }
 
         public UnratedItem[] BlockUnratedItems { get; set; }
 

@@ -1762,6 +1762,41 @@ public sealed class BaseItemRepository
             baseQuery = baseQuery.Where(e => e.IsLocked == filter.IsLocked);
         }
 
+        if (filter.VideoResolutions.Length > 0)
+        {
+            var resolutions = new List<(int Width, int Height)>();
+            foreach (var res in filter.VideoResolutions)
+            {
+                var parts = res.Split('x');
+                if (parts.Length == 2 && int.TryParse(parts[0], out var w) && int.TryParse(parts[1], out var h))
+                {
+                    resolutions.Add((w, h));
+                }
+            }
+
+            if (resolutions.Count > 0)
+            {
+                var parameter = Expression.Parameter(typeof(BaseItemEntity), "e");
+                Expression? combined = null;
+
+                foreach (var res in resolutions)
+                {
+                    var w = res.Width;
+                    var h = res.Height;
+                    var widthCheck = Expression.Equal(Expression.Property(parameter, nameof(BaseItemEntity.Width)), Expression.Constant((int?)w));
+                    var heightCheck = Expression.Equal(Expression.Property(parameter, nameof(BaseItemEntity.Height)), Expression.Constant((int?)h));
+                    var and = Expression.AndAlso(widthCheck, heightCheck);
+
+                    combined = combined == null ? and : Expression.OrElse(combined, and);
+                }
+
+                if (combined != null)
+                {
+                    baseQuery = baseQuery.Where(Expression.Lambda<Func<BaseItemEntity, bool>>(combined, parameter));
+                }
+            }
+        }
+
         var tags = filter.Tags.ToList();
         var excludeTags = filter.ExcludeTags.ToList();
 
